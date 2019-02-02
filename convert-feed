@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'uri'
+require_relative 'reader'
+
+options = {}
+OptionParser.new do |o|
+  o.banner = "Usage: #{$PROGRAM_NAME} [options]"
+
+  o.on("-r", "--reverse", "Reverse, please!") { |r| options[:reverse] = r }
+  o.on("-o", "--output FORMAT", "Select format, please!") { |o| options[:output] = o.downcase }
+  o.on("-h", "--help", "Help, please!") { puts o }
+
+end.parse!
+
+abort('Maybe you wanna help? Try with -h option.') if ARGV.empty?
+
+sources = {files: ARGV.select { |item| item.scan(/.xml$/).length > 0 }, uri: ARGV.select { |item| item.scan(URI.regexp).length > 0 }}
+
+feed = sources[:files].map { |el| Reader.read_file(el) } + sources[:uri].map { |el| Reader.read_uri(el) }
+
+# feed = ARGV.select { |item| item.scan(/(.xml$)|(#{URI.regexp})/).length > 0 }
+
+abort('I think, u dont know that are doing -_-') if feed.empty?
+
+# feed.each do |el|
+#   case el
+#   when el.xpath('/rss').present? || el.xpath('/rdf').present? == true
+#     RssReader.read(options, el)
+#   when el.xpath('/feed').present? == true
+#     AtomReader.read(options, el)
+#   else
+#     abort('Its not a rss or atom. Please be careful and try again!')
+#   end
+# end
+
