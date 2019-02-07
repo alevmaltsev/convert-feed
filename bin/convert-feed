@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require_relative '../lib/runner'
+
+options = {}
+OptionParser.new do |o|
+  o.banner = "Usage: #{$PROGRAM_NAME} [options]"
+
+  o.on("-r", "--reverse", "Reverse, please!") { |r| options[:reverse] = r }
+  o.on("-o", "--output FORMAT", "Select format, please! Rss or atom!") { |o| options[:output] = o.downcase.to_sym }
+  o.on("-h", "--help", "Help, please!") { puts o }
+
+end.parse!
+
+abort('Maybe you wanna help? Try with -h option.') if ARGV.empty?
+Runner.start(options, ARGV.first)
+
+
