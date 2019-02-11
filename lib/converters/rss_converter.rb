@@ -1,4 +1,3 @@
-require 'active_support/core_ext/hash/conversions'
 require 'rss'
 
 module RssConverter
@@ -20,7 +19,8 @@ module RssConverter
         end
       end
     end
-    File.open('output.rss', 'w') { |file| file.write(rss) }
+    puts 'Success converting to rss', rss
+    File.open('output.rss', 'w') { |f| f.write(rss) }
     rescue StandardError => e
       puts 'RssConverter', e
   end

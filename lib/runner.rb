@@ -4,6 +4,7 @@ require_relative './parsers/atom_parser'
 require_relative './parsers/rss_parser'
 require_relative './readers/file_reader'
 require_relative './readers/url_reader'
+require_relative './data_modifier'
 
 READERS = [FileReader, UrlReader]
 PARSERS = [RssParser, AtomParser]
@@ -15,7 +16,7 @@ module Runner
     feed = reader.nil? ? raise : reader.read(source)
     parser = PARSERS.find{ |parser| parser.can_parse?(feed) }
     data = parser.nil? ? raise : parser.parse(feed)
-    # updateData = Options.exist?(options) ? Options.updateData(data) : data
+    # updateData = DataModifier.nil?(options[:modifier]) ? data : options[:modifier].keys.each { |opt| puts opt.to_s }
     converter = CONVERTERS.find{ |converter| converter.can_convert?(options[:output]) }
     converter.convert(data)
   rescue StandardError => e 

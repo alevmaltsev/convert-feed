@@ -6,7 +6,7 @@ options = {}
 OptionParser.new do |o|
   o.banner = "Usage: #{$PROGRAM_NAME} [options]"
 
-  o.on("-r", "--reverse", "Reverse, please!") { |r| options[:reverse] = r }
+  o.on("-r", "--reverse", "Reverse, please!") { |r| options[:modifier][:reverse] = r }
   o.on("-o", "--output FORMAT", "Select format, please! Rss or atom!") { |o| options[:output] = o.downcase.to_sym }
   o.on("-h", "--help", "Help, please!") { puts o }
 
