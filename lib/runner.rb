@@ -16,7 +16,7 @@ module Runner
     feed = reader.nil? ? raise : reader.read(source)
     parser = PARSERS.find{ |parser| parser.can_parse?(feed) }
     data = parser.nil? ? raise : parser.parse(feed)
-    # updateData = DataModifier.nil?(options[:modifier]) ? data : options[:modifier].keys.each { |opt| puts opt.to_s }
+    updateData = options[:modifier].nil? ? data : options[:modifier].keys.each { |opt| DataModifier.send(opt, data[:items]) }
     converter = CONVERTERS.find{ |converter| converter.can_convert?(options[:output]) }
     converter.convert(data)
   rescue StandardError => e 
